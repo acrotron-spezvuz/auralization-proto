@@ -24,6 +24,9 @@
     <ClInclude Include="NAFLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SoundSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
