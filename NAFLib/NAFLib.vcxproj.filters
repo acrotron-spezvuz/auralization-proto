@@ -27,6 +27,9 @@
     <ClInclude Include="SoundSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SourceTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="NAFLib.h" />
     <ClInclude Include="SoundSource.h" />
+    <ClInclude Include="SourceTypes.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
