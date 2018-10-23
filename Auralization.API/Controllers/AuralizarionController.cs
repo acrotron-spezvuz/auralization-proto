@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Auralization.API.Models;
+using Auralization.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Auralization.API.Controllers
 {
+    /// <summary>
+    /// Auralization controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AuralizarionController : ControllerBase
@@ -19,10 +21,28 @@ namespace Auralization.API.Controllers
         }
 
         // POST api/values
+        /// <summary>
+        /// Auralization for selected sound sources
+        /// </summary>
+        /// <param name="sources"></param>
+        /// <returns></returns>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<string> Post(SoundSource[] sources)
         {
-            _logger.LogDebug("Auralization ...");
+            try
+            {
+                _logger.LogDebug("Auralization ...");
+                // pass sources to NAF lib
+                var result = NAFService.Auralization(sources);
+
+                // return results
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Auralization fail");
+                return StatusCode(500);
+            }
         }
     }
 }
