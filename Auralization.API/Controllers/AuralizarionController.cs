@@ -9,6 +9,7 @@ namespace Auralization.API.Controllers
     /// <summary>
     /// Auralization controller
     /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuralizarionController : ControllerBase
@@ -26,8 +27,13 @@ namespace Auralization.API.Controllers
         /// </summary>
         /// <param name="sources"></param>
         /// <returns>Json object with filename </returns>
+        /// <response code="200">Returns the filename</response>
+        /// <response code="400">If the request model is wrong</response>
+        /// <response code="500">Something went wrong</response>       
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(ApiResponse<string>))]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public ActionResult<ApiResponse<string>> Post([FromBody]SoundSource[] sources)
         {
             try

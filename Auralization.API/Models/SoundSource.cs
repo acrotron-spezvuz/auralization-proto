@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Auralization.API.Models
 {
@@ -13,6 +10,7 @@ namespace Auralization.API.Models
         /// <summary>
         /// Type of source
         /// </summary>
+        [Required]
         public SourceTypes source { get; set; }
 
         /// <summary>
@@ -23,11 +21,13 @@ namespace Auralization.API.Models
         /// <summary>
         /// Latitude
         /// </summary>
+        [Range(-90, 90)]
         public double lat { get; set; }
 
         /// <summary>
         /// Longitude
         /// </summary>
+        [Range(-180, 180)]
         public double lon { get; set; }
 
         /// <summary>
