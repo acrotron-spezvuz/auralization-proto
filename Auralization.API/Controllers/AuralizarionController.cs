@@ -22,21 +22,22 @@ namespace Auralization.API.Controllers
 
         // POST api/values
         /// <summary>
-        /// Auralization for selected sound sources
+        /// Auralization of selected sound sources
         /// </summary>
         /// <param name="sources"></param>
-        /// <returns></returns>
+        /// <returns>Json object with filename </returns>
         [HttpPost]
-        public ActionResult<string> Post(SoundSource[] sources)
+        [ProducesResponseType(200, Type = typeof(ApiResponse<string>))]
+        public ActionResult<ApiResponse<string>> Post([FromBody]SoundSource[] sources)
         {
             try
             {
                 _logger.LogDebug("Auralization ...");
                 // pass sources to NAF lib
-                var result = NAFService.Auralization(sources);
+                var fileName = NAFService.Auralization(sources);
 
                 // return results
-                return Ok(result);
+                return Ok(new ApiResponse<string>(fileName));
             }
             catch (Exception ex)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Auralization.API
 {
     /// <summary>
-    /// Default api response wrapper
+    /// Api response
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class ApiResponse<T>
