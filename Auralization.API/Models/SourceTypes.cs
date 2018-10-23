@@ -3,7 +3,7 @@
     /// <summary>
     /// Types of the sound source
     /// </summary>
-    public enum SoundTypes
+    public enum SourceTypes
     {
         Car = 0,
         Truck,
