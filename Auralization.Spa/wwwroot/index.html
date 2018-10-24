@@ -49,7 +49,7 @@
         <button type="submit">Add sound source</button>
     </form>
     <br />
-    <table>
+    <table id="source-table">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -81,18 +81,48 @@
                     return data;
                 }, {});
 
+                const addSourceToTable = source => {
+                    // assume, the source aleready added to the array
+                    // get array len
+                    let index = sources.length;
+
+                    // insert row at end
+                    let row = sourceTable.insertRow();
+                    // add cell
+                    let cell = row.insertCell();
+                    cell.innerHTML = index;
+
+                    // loop throught source obj
+                    for (let prop in source) {
+                        // if prop is own
+                        if (source.hasOwnProperty(prop)) {
+                            // add cell
+                            cell = row.insertCell()
+                            cell.innerHTML = source[prop];
+                        }
+                    }
+                };
+
                 // handle submit event
                 const handleSourceSubmit = event => {
-                  
+                    // prevent submit form
                     event.preventDefault();
+                    // convert to json 
                     let source = formToJson(sourceForm.elements);
+                    // push to array
                     sources.push(source);
+                    // debug array
                     console.log(sources);
+                    // add source to table
+                    addSourceToTable(source);
+                    // reset form
                     sourceForm.reset();
-                }
+                };
 
                 // get source form
                 const sourceForm = document.getElementById('source-form');
+                // get source table (tbody)
+                const sourceTable = document.getElementById('source-table').getElementsByTagName('tbody')[0];;
 
                 // listen to submit event
                 sourceForm.addEventListener('submit', handleSourceSubmit);
