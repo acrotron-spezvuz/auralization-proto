@@ -19,7 +19,7 @@
     <form id="source-form" >
 
         <label for="source">Sound Source:</label>
-        <select class="form-control" id="source" required>
+        <select name="source" required>
             <option value="" selected="selected">Select a source</option>
             <option value="0">Car</option>
             <option value="1">Truck</option>
@@ -28,25 +28,25 @@
             <option value="4">Helicopter</option>
         </select>
 
-        <label>Height</label>
-        <input class="form-control" type="number" value="0" required /> <br />
+        <label for="height">Height</label>
+        <input name="height" type="number" value="0" required /> <br />
 
-        <label>Latitude</label>
-        <input class="form-control" type="number" required/>
-        <span></span>
-        <label>Longitude</label>
-        <input class="form-control" type="number" required/> <br />
+        <label for="lat">Latitude</label>
+        <input name="lat" type="number" min="-90" max="90" required/>
+        
+        <label for="lon">Longitude</label>
+        <input name="lon" type="number" min="-180" max="180" required/> <br />
 
-        <label>Velocity X</label>
-        <input class="form-control" type="number" required/>
+        <label for="vx">Velocity X</label>
+        <input name="vx" type="number" required/>
 
-        <label>Velocity Y</label>
-        <input class="form-control" type="number" required/>
+        <label for="vy">Velocity Y</label>
+        <input name="vy" type="number" required/>
 
-        <label>Velocity Z</label>
-        <input class="form-control" type="number" required/> <br />
+        <label for="vz">Velocity Z</label>
+        <input name="vz" type="number" required/> <br />
 
-        <button type="submit">Add</button>
+        <button type="submit">Add sound source</button>
     </form>
     <br />
     <table>
@@ -69,18 +69,18 @@
     <script>
         (function () {
             'use strict';
-            window.addEventListener('load', function () {
-                // get form
-                var form = document.getElementById('source-form');
-                // listen to submit event
-                form.addEventListener('submit', function (event) {
-                    //if (form.checkValidity() === false) {
-                    console.log('submit source form', form);
-                    event.preventDefault();
-                    event.stopPropagation();
-                    //}
 
-                }, false);
+            const formToJson = elements => [].reduce.call();
+
+            const handleSourceSubmit = event => {
+                event.preventDefault();
+            }
+            
+            window.addEventListener('load', function () {
+                // get source form
+                var sourceForm = document.getElementById('source-form');
+                // listen to submit event
+                sourceForm.addEventListener('submit', handleSourceSubmit);
             });
         })();
     </script>
