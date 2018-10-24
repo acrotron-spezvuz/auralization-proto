@@ -8,6 +8,17 @@
         * {
             margin: 10px;
         }
+        table {
+            border-collapse: collapse;
+        }
+
+        tr {
+            border-bottom: 1px solid darkgray;
+        }
+
+        th, td {
+            padding: 2px 5px 2px 5px;
+        }
     </style>
     <title>Auralization</title>
 </head>
@@ -37,13 +48,14 @@
         <label for="lon">Longitude</label>
         <input name="lon" type="number" min="-180" max="180" required/> <br />
 
-        <label for="vx">Velocity X</label>
+        <label>Velocity</label> <br />
+        <label for="vx">X</label>
         <input name="vx" type="number" required/>
 
-        <label for="vy">Velocity Y</label>
+        <label for="vy">Y</label>
         <input name="vy" type="number" required/>
 
-        <label for="vz">Velocity Z</label>
+        <label for="vz">Z</label>
         <input name="vz" type="number" required/> <br />
 
         <button type="submit">Add sound source</button>
@@ -52,14 +64,14 @@
     <table id="source-table">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Source</th>
-                <th scope="col">Height</th>
-                <th scope="col">Lat</th>
-                <th scope="col">Lon</th>
-                <th scope="col">Vx</th>
-                <th scope="col">Vy</th>
-                <th scope="col">Vz</th>
+                <th >#</th>
+                <th >Source</th>
+                <th >Height</th>
+                <th >Lat</th>
+                <th >Lon</th>
+                <th >Vx</th>
+                <th >Vy</th>
+                <th >Vz</th>
             </tr>
         </thead>
         <tbody></tbody>
