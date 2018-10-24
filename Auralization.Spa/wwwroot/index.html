@@ -64,7 +64,25 @@
         </thead>
         <tbody></tbody>
     </table>
+
     <!-- Scripts  here -->
-    <script></script>
+    <script>
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // get form
+                var form = document.getElementById('source-form');
+                // listen to submit event
+                form.addEventListener('submit', function (event) {
+                    //if (form.checkValidity() === false) {
+                    console.log('submit source form', form);
+                    event.preventDefault();
+                    event.stopPropagation();
+                    //}
+
+                }, false);
+            });
+        })();
+    </script>
 </body>
 </html>
