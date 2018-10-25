@@ -81,14 +81,18 @@
 
 
         <div class="row">
-            <div class="col-md-4 mb-4">
+            <div class="col-md-2 mb-8">
                 <button class="btn btn-dark" id="auralization-btn">Auralize</button>
             </div>
-            <div class="col-md-8 mb-4" >
-                <audio controls src="" ></audio>
+
+            <div class="col-md-4 mb-8">
+                <audio controls src=""></audio>
+            </div>
+            <div class="col-md-6 mb-8">
+                <label id="label-filename"></label>
             </div>
         </div>
-    </div>
+        </div>
     <!-- Scripts here -->
     <script>
         (function () {
@@ -145,11 +149,54 @@
                     sourceForm.reset();
                 };
 
+                // start uralization process
+                const auralizationProcess = event => {
+                    if (!sources || sources.length < 1) {
+                        return;
+                    }
+                    // disable button
+                    auralizationBtn.disabled = true;
+                    // new request
+                    let request = new XMLHttpRequest();
+                    request.onreadystatechange = function () {
+                        // if everything is ok
+                        if (this.readyState == 4 && this.status == 200) {
+                            // parse object and debug
+                            let responseObj = JSON.parse(this.response);
+                            console.log(responseObj);
+
+                            // check for audio
+                            if (audioElement) {
+                                audioElement.src = responseObj.data;
+                            }
+
+                            // show filename
+                            labelFileName.innerHTML = responseObj.data;
+                        }
+
+                        // enable button
+                        auralizationBtn.disabled = false;
+                    };
+
+                    // send sources
+                    request.open('POST', 'https://localhost:44321/api/Auralizarion', true);
+                    request.setRequestHeader('content-type', 'application/json');
+                    request.send(JSON.stringify(sources));
+                };
+
                 // get source form
                 const sourceForm = document.getElementById('source-form');
                 // get source table (tbody)
-                const sourceTable = document.getElementById('source-table').getElementsByTagName('tbody')[0];;
+                const sourceTable = document.getElementById('source-table').getElementsByTagName('tbody')[0];
+                // get auralization button
+                const auralizationBtn = document.getElementById('auralization-btn');
+                // get audio element
+                const audioElement = document.getElementsByTagName('audio')[0];
+                // get label for file name
+                const labelFileName = document.getElementById('label-filename');
 
+                // listen to click event
+                auralizationBtn.addEventListener('click', auralizationProcess);
                 // listen to submit event
                 sourceForm.addEventListener('submit', handleSourceSubmit);
             });
