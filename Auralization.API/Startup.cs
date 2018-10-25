@@ -30,6 +30,8 @@ namespace Auralization.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // use swagger
@@ -67,6 +69,15 @@ namespace Auralization.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Auralization API");
                 c.RoutePrefix = string.Empty;
+            });
+
+            // bind allowed origins
+            app.UseCors(options => {
+                options
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();                
             });
 
             app.UseHttpsRedirection();
