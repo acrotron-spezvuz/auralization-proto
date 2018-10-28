@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -30,9 +31,29 @@ namespace Auralization.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            // get allowed origins
+            var alloweOrigins = new List<string>();
+            Configuration.Bind("AllowedOrigins", alloweOrigins);
+
+            // use allowed origins
+            services.AddCors(options => {
+                // add policy
+                options.AddPolicy("AllowSpecificOrigins", builder =>
+                {
+                    // build policy with config values
+                    builder.WithOrigins(alloweOrigins.ToArray())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // configure cors globally
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowSpecificOrigins"));
+            });
 
             // use swagger
             services.AddSwaggerGen(c =>
@@ -72,13 +93,7 @@ namespace Auralization.API
             });
 
             // bind allowed origins
-            app.UseCors(options => {
-                options
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials();                
-            });
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseHttpsRedirection();
             app.UseMvc();           
