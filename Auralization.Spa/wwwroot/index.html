@@ -82,7 +82,7 @@
 
         <div class="row">
             <div class="col-md-2 mb-8">
-                <button class="btn btn-dark" id="auralization-btn">Auralize</button>
+                <button class="btn btn-dark" id="auralization-btn" disabled>Auralize</button>
             </div>
 
             <div class="col-md-4 mb-8">
@@ -102,6 +102,8 @@
 
                 // empty source list
                 let sources = [];
+                // auralization api endpoint (recieved in config, see getConfig() function)
+                let auralixationApiEndpoint = '';
 
                 // conver form data to json object
                 const formToJson = elements => [].reduce.call(elements, (data, element) => {
@@ -184,6 +186,28 @@
                     request.send(JSON.stringify(sources));
                 };
 
+                // get configuration
+                const getConfig = () => {
+                    // new request
+                    let request = new XMLHttpRequest();
+                    request.onreadystatechange = function () {
+                        // if everything is ok
+                        if (this.readyState == 4 && this.status == 200) {
+                            // parse object and debug
+                            let responseObj = JSON.parse(this.response);
+                            console.log(responseObj);
+
+                            // get auralization api endpoint
+                            auralixationApiEndpoint = responseObj.AuralizaitionEndpoint;
+                            auralizationBtn.disabled = false;
+                        }
+                    }
+                    // send
+                    request.open('GET', '/api/config', true);
+                    request.setRequestHeader('content-type', 'application/json');
+                    request.send();
+                };
+
                 // get source form
                 const sourceForm = document.getElementById('source-form');
                 // get source table (tbody)
@@ -199,6 +223,9 @@
                 auralizationBtn.addEventListener('click', auralizationProcess);
                 // listen to submit event
                 sourceForm.addEventListener('submit', handleSourceSubmit);
+
+                // get config
+                getConfig();
             });
         })();
     </script>
