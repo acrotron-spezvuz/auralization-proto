@@ -103,7 +103,7 @@
                 // empty source list
                 let sources = [];
                 // auralization api endpoint (recieved in config, see getConfig() function)
-                let auralixationApiEndpoint = '';
+                let auralizationApiEndpoint = '';
 
                 // conver form data to json object
                 const formToJson = elements => [].reduce.call(elements, (data, element) => {
@@ -198,7 +198,7 @@
                             console.log(responseObj);
 
                             // get auralization api endpoint
-                            auralixationApiEndpoint = responseObj.AuralizaitionEndpoint;
+                            auralizationApiEndpoint = responseObj.AuralizaitionEndpoint;
                             auralizationBtn.disabled = false;
                         }
                     }
