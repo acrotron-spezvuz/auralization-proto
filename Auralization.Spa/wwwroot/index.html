@@ -68,9 +68,9 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Source</th>
-                    <th scope="col">Height</th>
                     <th scope="col">Lat</th>
                     <th scope="col">Lon</th>
+                    <th scope="col">Height</th>
                     <th scope="col">Vx</th>
                     <th scope="col">Vy</th>
                     <th scope="col">Vz</th>
@@ -113,6 +113,7 @@
                     return data;
                 }, {});
 
+                // add sound source to table
                 const addSourceToTable = source => {
                     // assume, the source aleready added to the array
                     // get array len
@@ -120,19 +121,16 @@
 
                     // insert row at end
                     let row = sourceTable.insertRow();
-                    // add cell
-                    let cell = row.insertCell();
-                    cell.innerHTML = index;
 
-                    // loop throught source obj
-                    for (let prop in source) {
-                        // if prop is own
-                        if (source.hasOwnProperty(prop)) {
-                            // add cell
-                            cell = row.insertCell()
-                            cell.innerHTML = source[prop];
-                        }
-                    }
+                    // fill data
+                    row.insertCell().innerHTML = index;
+                    row.insertCell().innerHTML = source.source;
+                    row.insertCell().innerHTML = +source.lat;
+                    row.insertCell().innerHTML = +source.lon;
+                    row.insertCell().innerHTML = +source.height;
+                    row.insertCell().innerHTML = +source.vx;
+                    row.insertCell().innerHTML = +source.vy;
+                    row.insertCell().innerHTML = +source.vz;
                 };
 
                 // handle submit event
@@ -181,7 +179,7 @@
                     };
 
                     // send sources
-                    request.open('POST', 'https://localhost:44321/api/Auralizarion', true);
+                    request.open('POST', auralizationApiEndpoint, true);
                     request.setRequestHeader('content-type', 'application/json');
                     request.send(JSON.stringify(sources));
                 };
@@ -198,7 +196,7 @@
                             console.log(responseObj);
 
                             // get auralization api endpoint
-                            auralizationApiEndpoint = responseObj.AuralizaitionEndpoint;
+                            auralizationApiEndpoint = responseObj.auralizaitionEndpoint;
                             auralizationBtn.disabled = false;
                         }
                     }
