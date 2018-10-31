@@ -6,8 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NAFLib", "NAFLib\NAFLib.vcxproj", "{8E417611-6251-4D2B-852A-C211771DFF67}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auralization.API", "Auralization.API\Auralization.API.csproj", "{718A00D2-DA41-4FD2-8CEE-DC4A0BD2CFC0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8E417611-6251-4D2B-852A-C211771DFF67} = {8E417611-6251-4D2B-852A-C211771DFF67}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auralization.Spa", "Auralization.Spa\Auralization.Spa.csproj", "{F9A525EF-BF4C-4DBA-A3B0-5526EE115547}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auralization.Spa", "Auralization.Spa\Auralization.Spa.csproj", "{F9A525EF-BF4C-4DBA-A3B0-5526EE115547}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
