@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="aws-windows-deployment-manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\traffic.mp3">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
