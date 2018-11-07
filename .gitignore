@@ -259,3 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/Auralization.API/Properties/PublishProfiles
+/Auralization.API/appsettings.Staging.json
+/Auralization.Spa/Properties/PublishProfiles
+/Auralization.Spa/appsettings.Staging.json
