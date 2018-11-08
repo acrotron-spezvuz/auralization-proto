@@ -11,7 +11,7 @@ namespace Auralization.Spa.Controllers
     /// <summary>
     /// Configuration controller
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ConfigController : ControllerBase
     {
