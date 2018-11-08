@@ -40,7 +40,7 @@
                         </select>
                     </div>
                     <div class="col-md-4 mb-4">
-                        <label class="d-flex justify-content-center">Coordinates</label>
+                        <label class="d-flex justify-content-center">Coordinates (click on the map to fill)</label>
                         <div class="input-group">
                             <input name="lat" type="number" min="-90" max="90" step=".000001" required class="form-control" placeholder="Latitude" />
                             <input name="lon" type="number" min="-180" max="180" step=".000001" required class="form-control" placeholder="Longitude" />
@@ -252,6 +252,19 @@
                     progressbar.innerHTML = `${value}%`;
                 }
 
+                // on map click event
+                const onMapClick = (event) => {
+
+                    // show selected point
+                    mapPopUp.setLatLng(event.latlng)
+                        .setContent(`Lat ${event.latlng.lat}, Lon ${event.latlng.lng}`)
+                        .openOn(mymap);
+
+                    // pass data to form elements
+                    sourceForm.elements['lat'].value = event.latlng.lat.toFixed(6);
+                    sourceForm.elements['lon'].value = event.latlng.lng.toFixed(6);
+                }
+
                 // get source form
                 const sourceForm = document.getElementById('source-form');
                 // get source table (tbody)
@@ -275,14 +288,19 @@
 
                 // init map
                 const mymap = L.map('mapid').setView([42.361145, -71.057083], 13);
+                // init popup
+                const mapPopUp = L.popup();
 
                 // add mapbox tiles layer
-                L.tileLayer( 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                     maxZoom: 18,
                     id: 'mapbox.light',
                     accessToken: 'pk.eyJ1IjoiZG9jdG9yYmlzaG9wIiwiYSI6ImNqbzk3Z3R1MDAxankza3IwOG10NzN3ZmwifQ.MkLyzmCleiF2M3t9DpShhw'
                 }).addTo(mymap);
+
+                // handle on click
+                mymap.on('click', onMapClick);
             });
         })();
     </script>
