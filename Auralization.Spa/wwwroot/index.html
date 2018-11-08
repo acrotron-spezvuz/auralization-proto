@@ -80,19 +80,26 @@
         </table>
 
 
-        <div class="row">
-            <div class="col-md-2 mb-8">
+        <div class="row align-items-center">
+            <div class="col-md-3 mb-8 ">
                 <button class="btn btn-dark" id="auralization-btn" disabled>Auralize</button>
             </div>
 
-            <div class="col-md-4 mb-8">
+            <div class="col-md-5 mb-8">
+                <div class="progress" style="height:36px">
+                    <div class="progress-bar progress-bar-striped bg-dark" role="progressbar" id="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                </div>                
+            </div>
+            <div class="col-md-4 mb-8 d-flex justify-content-end">
                 <audio controls src=""></audio>
             </div>
-            <div class="col-md-6 mb-8">
-                <label id="label-filename"></label>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <p class="lead" id="label-filename"></p>
             </div>
         </div>
-        </div>
+    </div>
     <!-- Scripts here -->
     <script>
         (function () {
@@ -130,7 +137,7 @@
                     row.insertCell().innerHTML = +source.height;
                     row.insertCell().innerHTML = +source.vx;
                     row.insertCell().innerHTML = +source.vy;
-                    row.insertCell().innerHTML = +source.vz;
+                    row.insertCell().innerHTML = +source.vz;                                        
                 };
 
                 // handle submit event
@@ -154,29 +161,40 @@
                     if (!sources || sources.length < 1) {
                         return;
                     }
+
+                    // update progress bar
+                    updateProgressbar(0);
                     // disable button
                     auralizationBtn.disabled = true;
                     // new request
                     let request = new XMLHttpRequest();
                     request.onreadystatechange = function () {
-                        // if everything is ok
-                        if (this.readyState == 4 && this.status == 200) {
-                            // parse object and debug
-                            let responseObj = JSON.parse(this.response);
-                            console.log(responseObj);
+                        // if request state is done
+                        if (this.readyState == 4) 
+                        {
+                            // and everything is ok
+                            if (this.status == 200) {
+                                // parse object and debug
+                                let responseObj = JSON.parse(this.response);
+                                console.log(responseObj);
 
-                            // check for audio
-                            if (audioElement) {
-                                audioElement.src = responseObj.data;
+                                // check for audio
+                                if (audioElement) {
+                                    audioElement.src = responseObj.data;
+                                }
+
+                                // show filename
+                                labelFileName.innerHTML = responseObj.data;
                             }
 
-                            // show filename
-                            labelFileName.innerHTML = responseObj.data;
+                            // enable button
+                            auralizationBtn.disabled = false;
+                            // update progress bar
+                            updateProgressbar(100);
                         }
-
-                        // enable button
-                        auralizationBtn.disabled = false;
                     };
+                    // update progress bar
+                    updateProgressbar(50);
 
                     // send sources
                     request.open('POST', auralizationApiEndpoint, true);
@@ -206,6 +224,16 @@
                     request.send();
                 };
 
+                // set progress bar value
+                const updateProgressbar = (value) => {
+                    // set progress value
+                    progressbar.setAttribute('aria-valuenow', `${value}`);
+                    progressbar.style.width = `${value}%`;
+
+                    // set label value
+                    progressbar.innerHTML = `${value}%`;
+                }
+
                 // get source form
                 const sourceForm = document.getElementById('source-form');
                 // get source table (tbody)
@@ -216,6 +244,8 @@
                 const audioElement = document.getElementsByTagName('audio')[0];
                 // get label for file name
                 const labelFileName = document.getElementById('label-filename');
+                // get progressbar 
+                const progressbar = this.document.getElementById('progressbar');
 
                 // listen to click event
                 auralizationBtn.addEventListener('click', auralizationProcess);
