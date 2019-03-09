@@ -12,11 +12,11 @@ namespace Auralization.API.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AuralizarionController : ControllerBase
+    public class AuralizationController : ControllerBase
     {
         readonly ILogger _logger;
 
-        public AuralizarionController(ILogger<AuralizarionController> logger)
+        public AuralizationController(ILogger<AuralizationController> logger)
         {
             _logger = logger;
         }
