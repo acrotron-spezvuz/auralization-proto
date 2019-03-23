@@ -260,3 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 *.pubxml
+/Auralization.API/Properties/PublishProfiles
+/Auralization.API/appsettings.Staging.json
+/Auralization.Spa/Properties/PublishProfiles
+/Auralization.Spa/appsettings.Staging.json

@@ -3,6 +3,7 @@ using Auralization.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace Auralization.API.Controllers
 {
@@ -34,13 +35,16 @@ namespace Auralization.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public ActionResult<ApiResponse<string>> Post([FromBody]SoundSource[] sources)
+        public async Task<ActionResult<ApiResponse<string>>> Post([FromBody]SoundSource[] sources)
         {
             try
             {
                 _logger.LogDebug("Auralization ...");
                 // pass sources to NAF lib
                 var fileName = NAFService.Auralization(sources);
+
+                // delay
+                await Task.Delay(500);
 
                 // return results
                 return Ok(new ApiResponse<string>(fileName));
