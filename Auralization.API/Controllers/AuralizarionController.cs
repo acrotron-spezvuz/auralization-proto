@@ -31,7 +31,7 @@ namespace Auralization.API.Controllers
         /// <response code="200">Returns the filename</response>
         /// <response code="400">If the request model is wrong</response>
         /// <response code="500">Something went wrong</response>       
-        [HttpPost]
+        [HttpPost("AuralizeFromSources")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
@@ -42,6 +42,41 @@ namespace Auralization.API.Controllers
                 _logger.LogDebug("Auralization ...");
                 // pass sources to NAF lib
                 var fileName = NAFService.Auralization(sources);
+
+                // delay
+                await Task.Delay(500);
+
+                // return results
+                return Ok(new ApiResponse<string>(fileName));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Auralization fail");
+                return StatusCode(500);
+            }
+        }
+
+        // POST api/values
+        /// <summary>
+        /// Auralization of sound sources based on text in NAFSnaP format.
+        /// </summary>
+        /// <param name="content">a string to accept NAFSnaP-formatted content.</param>
+        /// <returns>a string with location of a generated sound file or an error description, 
+        /// same as the "Auralization" service response.</returns>
+        /// <response code="200">Returns the filename</response>
+        /// <response code="400">If the request model is wrong</response>
+        /// <response code="500">Something went wrong</response>       
+        [HttpPost("AuralizeFromContent")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<ApiResponse<string>>> Post([FromBody]string content)
+        {
+            try
+            {
+                _logger.LogDebug("Auralization ...");
+                // pass sources to NAF lib
+                var fileName = NAFService.AuralizeFromContent(content);
 
                 // delay
                 await Task.Delay(500);

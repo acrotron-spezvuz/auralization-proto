@@ -65,4 +65,19 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0AF3ED8-558D-4F4C-86A5-1BBD935B42A9}
 	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://aedt.visualstudio.com/
+		SccProjectUniqueName0 = Auralization.API\\Auralization.API.csproj
+		SccProjectName0 = Auralization.API
+		SccLocalPath0 = Auralization.API
+		SccProjectUniqueName1 = Auralization.Spa\\Auralization.Spa.csproj
+		SccProjectName1 = Auralization.Spa
+		SccLocalPath1 = Auralization.Spa
+		SccProjectUniqueName2 = NAFLib\\NAFLib.vcxproj
+		SccProjectName2 = NAFLib
+		SccLocalPath2 = NAFLib
+		SccLocalPath3 = .
+	EndGlobalSection
 EndGlobal

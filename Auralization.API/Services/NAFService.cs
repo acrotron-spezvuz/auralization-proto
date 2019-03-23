@@ -17,5 +17,14 @@ namespace Auralization.API.Services
         [return: MarshalAs(UnmanagedType.LPStr)]
         public static extern string Auralization(SoundSource[] sources);
 
+        /// <summary>
+        /// Auralization of sound sources based on text in NAFSnaP format.
+        /// </summary>
+        /// <param name="content">a string to accept NAFSnaP-formatted content.</param>
+        /// <returns>a string with location of a generated sound file or an error description, 
+        /// same as the "Auralization" service response.</returns>
+        [DllImport("NAFLib", CallingConvention = CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.LPStr)]
+        public static extern string AuralizeFromContent(string content);
     }
 }
