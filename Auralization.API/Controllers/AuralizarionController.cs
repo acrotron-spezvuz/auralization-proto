@@ -1,8 +1,11 @@
-﻿using Auralization.API.Models;
+﻿    using Auralization.API.Models;
 using Auralization.API.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Auralization.API.Controllers
@@ -16,6 +19,7 @@ namespace Auralization.API.Controllers
     public class AuralizationController : ControllerBase
     {
         readonly ILogger _logger;
+        private static readonly long MaxFileSize = 100 * 1024 * 1024; //100 mb
 
         public AuralizationController(ILogger<AuralizationController> logger)
         {
@@ -89,6 +93,46 @@ namespace Auralization.API.Controllers
                 _logger.LogError(ex, "Auralization fail");
                 return StatusCode(500);
             }
+        }
+
+        // POST api/values
+        /// <summary>
+        /// Upload wav or csv configuratttioooon                 
+        /// </summary>
+        /// <param name="file">multiparted file data</param>
+        /// <returns>nothing</returns>
+        /// <response code="200">Indicates a successfull upload</response>
+        /// <response code="400">If the request model is wrong</response>
+        /// <response code="500">Something went wrong</response>       
+        [HttpPost("UploadFile")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        
+        public async Task<ActionResult<ApiResponse<bool>>> Post(IFormFile file)
+        {
+            _logger.LogDebug("Uploading file");
+            if (file == null || file.Length == 0 || file.Length > MaxFileSize)
+            {
+                _logger.LogError("Uploading null file or a file with incorrect size. Ignoring");
+                return StatusCode(400);
+            }
+
+            var supportedExtensions = new[] { ".csv", ".wav" };
+            var extension = Path.GetExtension(file.FileName);
+            if (!supportedExtensions.Contains(extension))
+            {
+                _logger.LogError("Unsupported file extension");
+                return StatusCode(400);
+            }
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "input", file.FileName);
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok(new ApiResponse<bool>(true));
         }
     }
 }
