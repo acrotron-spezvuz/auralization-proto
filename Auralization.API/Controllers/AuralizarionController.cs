@@ -106,16 +106,70 @@ namespace Auralization.API.Controllers
         /// <response code="500">Something went wrong</response>       
         [HttpPost("UploadFile")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         
         public async Task<ActionResult<ApiResponse<bool>>> Post(IFormFile file)
+        {
+            try
+            {
+                var uploadResult = await processFile(file);
+                return Ok(new ApiResponse<bool>(uploadResult));
+            } catch (Exception ex)
+            {
+                _logger.LogError(ex, "Auralization fail");
+                return StatusCode(500);
+            }
+        }
+
+        // POST api/values
+        /// <summary>
+        /// Auralization of sound sources based on text in NAFSnaP format.
+        /// </summary>
+        /// <param name="content">a string to accept NAFSnaP-formatted content.</param>
+        /// <param name="file">multiparted file data</param>
+        /// <returns>a string with location of a generated sound file or an error description, 
+        /// same as the "Auralization" service response.</returns>
+        /// <response code="200">Returns the filename</response>
+        /// <response code="400">If the request model is wrong</response>
+        /// <response code="500">Something went wrong</response>       
+        [HttpPost("AuralizeFromContentAndFile")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<ApiResponse<string>>> Post([FromForm]string content, IFormFile file)
+        {
+            try
+            {
+                var fileUploaded = await processFile(file);
+                if (!fileUploaded)
+                {
+                    return StatusCode(400);
+                }
+
+                _logger.LogDebug("Auralization ...");
+                // pass sources to NAF lib
+                var fileName = NAFService.AuralizeFromContent(content);
+
+                // delay
+                await Task.Delay(500);
+
+                // return results
+                return Ok(new ApiResponse<string>(fileName));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Auralization fail");
+                return StatusCode(500);
+            }
+        }
+
+        private async Task<bool> processFile(IFormFile file)
         {
             _logger.LogDebug("Uploading file");
             if (file == null || file.Length == 0 || file.Length > MaxFileSize)
             {
                 _logger.LogError("Uploading null file or a file with incorrect size. Ignoring");
-                return StatusCode(400);
+                return false;
             }
 
             var supportedExtensions = new[] { ".csv", ".wav" };
@@ -123,7 +177,7 @@ namespace Auralization.API.Controllers
             if (!supportedExtensions.Contains(extension))
             {
                 _logger.LogError("Unsupported file extension");
-                return StatusCode(400);
+                return false;
             }
 
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "input", file.FileName);
@@ -132,7 +186,7 @@ namespace Auralization.API.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            return Ok(new ApiResponse<bool>(true));
+            return true;
         }
     }
 }
