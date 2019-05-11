@@ -3,6 +3,7 @@ using Auralization.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -167,6 +168,26 @@ namespace Auralization.API.Controllers
                 _logger.LogError(ex, "Auralization fail");
                 return StatusCode(500);
             }
+        }
+
+        // GET api/values
+        /// <summary>
+        /// Get versions of major components
+        /// </summary>
+        /// <returns>json with versions of the major components</returns>
+        /// <response code="200">Returns the filename</response>
+        /// <response code="500">Something went wrong</response>       
+        [HttpGet("GetVersions")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<ApiResponse<JsonResult>>> Get()
+        {
+            var versions = new Models.Version("0.1", "0.1", new (string, string)[0]);
+
+            await Task.Delay(500);
+
+            return new JsonResult(versions);
         }
 
         private async Task<bool> processFile(IFormFile file)
