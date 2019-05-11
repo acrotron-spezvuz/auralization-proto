@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -126,27 +127,32 @@ namespace Auralization.API.Controllers
         /// Auralization of sound sources based on text in NAFSnaP format.
         /// </summary>
         /// <param name="content">a string to accept NAFSnaP-formatted content.</param>
-        /// <param name="file">multiparted file data</param>
+        /// <param name="files">multiparted files data</param>
+        /// <param name="wavLength">length of the result file</param>
         /// <returns>a string with location of a generated sound file or an error description, 
         /// same as the "Auralization" service response.</returns>
         /// <response code="200">Returns the filename</response>
         /// <response code="400">If the request model is wrong</response>
         /// <response code="500">Something went wrong</response>       
-        [HttpPost("AuralizeFromContentAndFile")]
+        [HttpPost("AuralizeFromContentAndFiles")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<ApiResponse<string>>> Post([FromForm]string content, IFormFile file)
+        public async Task<ActionResult<ApiResponse<string>>> Post([FromForm]string content, IList <IFormFile> files, [FromForm]decimal wavLength = 0)
         {
             try
             {
-                var fileUploaded = await processFile(file);
-                if (!fileUploaded)
+                foreach (var file in files)
                 {
-                    return StatusCode(400);
+                    var fileUploaded = await processFile(file);
+                    if (!fileUploaded)
+                    {
+                        return StatusCode(400);
+                    }
                 }
 
                 _logger.LogDebug("Auralization ...");
+                _logger.LogDebug("result length {0}", wavLength);
                 // pass sources to NAF lib
                 var fileName = NAFService.AuralizeFromContent(content);
 
