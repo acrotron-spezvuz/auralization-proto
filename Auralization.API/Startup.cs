@@ -25,8 +25,8 @@ namespace Auralization.API
         public void ConfigureServices(IServiceCollection services)
         {
             // get allowed origins
-            var alloweOrigins = new List<string>();
-            Configuration.Bind("AllowedOrigins", alloweOrigins);
+            var allowedOrigins = new List<string>();
+            Configuration.Bind("AllowedOrigins", allowedOrigins);
 
             // use allowed origins
             services.AddCors(options => {
@@ -34,7 +34,7 @@ namespace Auralization.API
                 options.AddPolicy("AllowSpecificOrigins", builder =>
                 {
                     // build policy with config values
-                    builder.WithOrigins(alloweOrigins.ToArray())
+                    builder.WithOrigins(allowedOrigins.ToArray())
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
