@@ -264,3 +264,6 @@ __pycache__/
 /Auralization.API/appsettings.Staging.json
 /Auralization.Spa/Properties/PublishProfiles
 /Auralization.Spa/appsettings.Staging.json
+
+# Ignore uploaded input files
+/Auralization.API/wwwroot/input/

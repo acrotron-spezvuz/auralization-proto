@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2046
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NAFLib", "NAFLib\NAFLib.vcxproj", "{8E417611-6251-4D2B-852A-C211771DFF67}"
 EndProject
@@ -11,6 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auralization.API", "Auraliz
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auralization.Spa", "Auralization.Spa\Auralization.Spa.csproj", "{F9A525EF-BF4C-4DBA-A3B0-5526EE115547}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{A334E52E-D04A-4E45-B705-1CEFB4723654}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,20 +69,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0AF3ED8-558D-4F4C-86A5-1BBD935B42A9}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://aedt.visualstudio.com/
-		SccProjectUniqueName0 = Auralization.API\\Auralization.API.csproj
-		SccProjectName0 = Auralization.API
-		SccLocalPath0 = Auralization.API
-		SccProjectUniqueName1 = Auralization.Spa\\Auralization.Spa.csproj
-		SccProjectName1 = Auralization.Spa
-		SccLocalPath1 = Auralization.Spa
-		SccProjectUniqueName2 = NAFLib\\NAFLib.vcxproj
-		SccProjectName2 = NAFLib
-		SccLocalPath2 = NAFLib
-		SccLocalPath3 = .
 	EndGlobalSection
 EndGlobal

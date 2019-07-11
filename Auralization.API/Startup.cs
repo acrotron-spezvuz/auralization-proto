@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +18,8 @@ namespace Auralization.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            CloseApplicationIfRunInDebug();
         }
 
         public IConfiguration Configuration { get; }
@@ -90,6 +93,17 @@ namespace Auralization.API
 
             app.UseHttpsRedirection();
             app.UseMvc();           
+        }
+
+        [Conditional("DEBUG")]
+        private void CloseApplicationIfRunInDebug()
+        {
+            // API should be run in RELEASE mode due to issues with the NAFLib library not being able to
+            // run successfully in DEBUG.
+
+            // TODO: perhaps show warning website instead?
+
+            System.Environment.Exit(1);
         }
     }
 }

@@ -25,6 +25,8 @@ namespace Auralization.API.Controllers
         public AuralizationController(ILogger<AuralizationController> logger)
         {
             _logger = logger;
+
+
         }
 
         // POST api/values
@@ -151,13 +153,15 @@ namespace Auralization.API.Controllers
                     }
                 }
 
-                _logger.LogDebug("Auralization ...");
+                _logger.LogDebug("Starting Auralization ...");
                 _logger.LogDebug("result length {0}", wavLength);
                 // pass sources to NAF lib
                 var fileName = NAFService.AuralizeFromContent(content);
 
                 // delay
                 await Task.Delay(500);
+
+                _logger.LogDebug("Resulting filename: " + fileName);
 
                 // return results
                 return Ok(new ApiResponse<string>(fileName));
@@ -197,6 +201,8 @@ namespace Auralization.API.Controllers
                 _logger.LogError("Uploading null file or a file with incorrect size. Ignoring");
                 return false;
             }
+
+            _logger.LogDebug("FileName: " + file.FileName);
 
             var supportedExtensions = new[] { ".csv", ".wav" };
             var extension = Path.GetExtension(file.FileName);
